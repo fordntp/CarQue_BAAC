@@ -38,9 +38,10 @@ include 'connect.php';
     <!--Navbar End-->
     <div class="row row-height">
     <div id="lside" class="col-2 p-4 col-auto row-height lside">
-        <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
+    <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
         <button id="c_request" onclick="window.location.href='form_request.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">สร้างคำร้องขอ</button>
         <button id="contact" onclick="window.location.href='contact.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลการติดต่อ</button>
+        <button id="contact" onclick="window.location.href='car_for_user.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลรถ</button>
       </div>
       <div class="col-10 p-5 row-height rside">
       <div class="dec text-center">

@@ -42,9 +42,10 @@ include 'connect.php';
     </nav>
     <!--Navbar End-->
     <div class="row row-height">
-    <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-between flex-column  lside">
+    <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-start flex-column  lside">
+      <button id="car_info" onclick="window.location.href='employees.php'" class="btn btn-block btn-green">ข้อมูลพนักงานทั้งหมด</button>
         <button id="car_info" onclick="window.location.href='car_info.php'" class="btn btn-block btn-green">ข้อมูลรถยนต์</button>
-        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงาน</button>
+        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงานขับรถ</button>
         <button id="report" onclick="window.location.href='report.php'" class="btn btn-block btn-green">รายงานการจอง</button>
         <button id="approve" onclick="window.location.href='ap_manage.php'" class="btn btn-block btn-green">ผู้อนุมัติ</button>
       </div>
@@ -81,9 +82,9 @@ include 'connect.php';
               <td><?php echo $row["car_num"];?></td>
               <td><?php echo $row["d_fname"];?></td>
               <td><?php echo $row["u_fname"];?></td>
-              <td><select class="form-select" aria-label="Default select example"  id="q_status<?php echo $row["form_id"];?>" name="q_status">
+              <td ><select class="form-select" aria-label="Default select example"  id="q_status<?php echo $row["form_id"];?>" name="q_status">
                   <option value="รอการอนุมัติ" selected><?php echo $row["q_status"];?></option>
-                  <option value="อนุมัติ">อนุมัติ</option>
+                  <option  value="อนุมัติ">อนุมัติ</option>
                   <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
                   </select>
                 </td>
@@ -1137,8 +1138,8 @@ a{
     color: #fff;
 }
 .btn-green {
-  padding-top:4vw;
-  padding-bottom:4vw;
+  padding-top:2vw;
+  padding-bottom:2vw;
   color: #fff;
   background-color: #047857;
 }
@@ -1182,6 +1183,9 @@ h4{
   font-size:0.8rem;
 }
 #lside{
+  height: 90vh;
   background-color: #d0d0d0;
 }
+#as1{
+  background-color:green;}
 </style>

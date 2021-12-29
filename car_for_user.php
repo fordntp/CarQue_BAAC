@@ -1,3 +1,7 @@
+<?php
+include 'connect.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +16,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
   </head>
 <body>
 <nav class="navbar navbar-expand  sticky-top bg-green">
         <a class="mll mt-1 mb-1" href="#">
-            <img src="img/tks.png" width="60px" height="60px"/>
+            <img src="img/tks.png" width="60vw" height="60vw"/>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <strong class="navbar-toggler-icon"></strong>
@@ -26,43 +32,77 @@
             <h5 class="p-3">ระบบจองยานพาหนะ <br> สำนักงาน ธ.ก.ส.จังหวัดสุราษฎร์ธานี</h5>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li id="ic" onclick="window.location.href='home.php'" ><img src="img/house-fill.svg" width="50px" height="50px"/></li>
-                <li id="ic" onclick="window.location.href='home.php'"  class="pl-4"><img src="img/box-arrow-right.svg" width="50px" height="50px"/></li>
+                <li id="ic" onclick="window.location.href='report.php'" ><img src="img/house-fill.svg" width="50px" height="50px"/></li>
+                <li id="ic" onclick="window.location.href=href='check_logout.php?user_logout'" class="pl-4"><img src="img/box-arrow-right.svg" width="50px" height="50px"/></li>
             </ul>
     </nav>
     <!--Navbar End-->
     <div class="row row-height">
-      <div class="col-2 p-4 col-auto row-height  lside">
-        <button id="home" onclick="window.location.href='#'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
-        <button id="c_request" onclick="window.location.href='#'" class="btn btn-block pt-4 pb-4 btn-green mb-4">สร้างคำร้องขอ</button>
-        <button id="car_info" onclick="window.location.href='#'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลรถยนต์</button>
-        <button id="driver_info" onclick="window.location.href='#'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลพนักงาน</button>
-        <button id="report" onclick="window.location.href='#'" class="btn btn-block pt-4 pb-4 btn-green mb-4">รายงานการจอง</button>
-        <button id="approve" onclick="window.location.href='#'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ผู้อนุมัติ</button>
+      <div id="lside" class="col-2 p-4 col-auto row-height lside">
+      <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
+        <button id="c_request" onclick="window.location.href='form_request.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">สร้างคำร้องขอ</button>
+        <button id="contact" onclick="window.location.href='contact.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลการติดต่อ</button>
+        <button id="contact" onclick="window.location.href='car_for_user.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลรถ</button>
+  
+    </div>
+      <div class="col-10 p-5 row-height rside">
+      <div class="dec text-center">
+      <h4 class="mb-4">ข้อมูลรถยนต์</h4>
       </div>
-      <div class="col-10 row-height rside">
-        <p>dscdszfcdzsvsdv</p>
+      <div class="row" id="infocar">
+      <?php
+            $sql = "SELECT * FROM car_table";
+            $result = $conn->query($sql);
+        ?>
+                <?php 
+            $i = 0;
+            while($row = $result->fetch_assoc()){
+                $i++;
+            ?>
+        <div class="col-4">
+          <div class="card mt-3">
+            <div class="card-body text-center">
+            <?php echo $row["car_brand"];?><br>
+            <?php echo 'ทะเบียน ', $row["car_num"];?><br>
+            <?php echo 'จำนวน ', $row["car_val"], ' ที่นั่ง';?> 
+            </div>
+          </div>
+        </div><?php } ?>
       </div>
     </div>
 </body>
 </html>
+<script>
+  $("#alert_login").hide();
+</script>
 <style>
-body{
-  background-color:#Fff;
-  font-family: 'Kanit', sans-serif;
-  font-size:1.5rem;
-  color: #fff;
-  overflow-y: hidden;
+html{
   overflow-x: hidden;
+}
+body{
+  background-color:#fff;
+  font-family: 'Kanit', sans-serif;
+  font-size:1vw;
+  color: #fff;
+  overflow-x: hidden;
+}
+.modal{
+  color:#000;
 }
 a{
     color: #fff;
 }
 .btn-green {
+  padding-top:2vw;
+  padding-bottom:2vw;
   color: #fff;
   background-color: #047857;
 }
-.bg-green {
+.bg-green{
+  color: #fff;
+  background-color: #047857;
+}
+.card{
   color: #fff;
   background-color: #047857;
 }
@@ -72,18 +112,25 @@ a{
 }
 .navbar{
     height:100px;
-
 }
 #ic:hover{
   cursor: pointer;
 }
-.lside{
-  background-color: #f4f4f4;
-  height:720px;
 }
 .rside{
   background-color: #fff;
   height: 100%;
 }
-
+.table{
+  color:#000;
+  font-size:1vw;
+}
+h4{
+  color:black;
+  text-decoration: underline;
+}
+#lside{
+  background-color: #d0d0d0;
+  height:90vh;
+}
 </style>

@@ -37,9 +37,10 @@ include 'connect.php';
     </nav>
     <!--Navbar End-->
     <div class="row row-height">
-    <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-between flex-column  lside">
+    <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-start flex-column  lside">
+      <button id="car_info" onclick="window.location.href='employees.php'" class="btn btn-block btn-green">ข้อมูลพนักงานทั้งหมด</button>
         <button id="car_info" onclick="window.location.href='car_info.php'" class="btn btn-block btn-green">ข้อมูลรถยนต์</button>
-        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงาน</button>
+        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงานขับรถ</button>
         <button id="report" onclick="window.location.href='report.php'" class="btn btn-block btn-green">รายงานการจอง</button>
         <button id="approve" onclick="window.location.href='ap_manage.php'" class="btn btn-block btn-green">ผู้อนุมัติ</button>
       </div>
@@ -68,6 +69,7 @@ include 'connect.php';
         </div>
         <div class="editcar p-5 float-right">
         <button name="toadddriver" id="toadddriver" class="btn btn-success" href="#" type="button" data-toggle="modal" data-target=".add_drive" >เพิ่มข้อมูลพนักงาน</button>
+        <button name="toeditcar" id="toeditcar" class="btn btn-warning" href="#" type="button" data-toggle="modal" data-target=".edit" onclick="return select()" >แก้ไขข้อมูล</button>
         <button name="toremovedriver" id="toremovedriver" class="btn btn-danger" href="#" type="button" data-toggle="modal" data-target=".remove_drive">ลบข้อมูล</button>
       </div>      
       <div class="modal fade add_drive" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -137,6 +139,48 @@ include 'connect.php';
         </div>
       </div>
       </div>
+      <div class="modal fade edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">แก้ไขข้อมูลพนักงานขับรถ</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <?php
+            $sql = "SELECT * FROM driver_table";
+            $result = $conn->query($sql);
+        ?>
+            <form>
+              <div class="form-group">
+              <select class="form-select form-control" aria-label="Default select example"  id="d_id1" name="d_id1" onchange="return select()">
+              <?php 
+                        $i = 0;
+                        while($row = $result->fetch_assoc()){
+                            $i++;
+                        ?>
+                    <option   value="<?php echo $row["d_id"];?>" selected>
+                        <?php echo $row["d_fname"];?>
+                    </option> 
+                    <?php } ?>
+              </select>
+              <label for="d_fname" class="col-form-label">ชื่อ</label>
+                <input type="text" class="form-control" id="ed_fname" val="">
+                <label for="d_lname" class="col-form-label">นามสกุล</label>
+                <input type="text" class="form-control" id="ed_lname" val="">
+                <label for="d_tel" class="col-form-label">เบอร์โทร</label>
+                <input type="text" class="form-control" id="ed_tel" val="">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" name="editcar" id="editcar" class="btn btn-warning" onclick="return editdriver()">แก้ไขข้อมูล</button>
+          </div>
+        </div>
+      </div>
+      </div>
 </div>
       </div>
     </div>
@@ -180,6 +224,43 @@ function add_drive(){
                 }
             });
     }
+    function select(){
+    $("#alert_login").hide();
+            $.ajax({
+                url: "editdriver_back.php",
+                type: "GET",
+                dataType: "json",
+                data: { 
+                    user: "select_driver",
+                    d_id: $("#d_id1").val(),
+                },
+                success: function(response){
+                console.log(response)
+                $("#ed_fname").val(response.d_fname);
+                $("#ed_lname").val(response.d_lname);
+                $("#ed_tel").val(response.d_tel);
+                }
+            });
+    }
+    function editdriver(){
+  $("#alert_login").hide();
+            $.ajax({
+                url: "editdriver_back.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    user: "editdriver",
+                    d_id: $("#d_id1").val(),
+                    d_fname: $("#ed_fname").val(),
+                    d_lname: $("#ed_lname").val(),
+                    d_tel: $("#ed_tel").val(),
+                },
+                success: function (response) {
+                    alert("แก้ไขสำเร็จ!");
+                    location.href = 'driver_info.php';
+                }
+            });
+    }
 </script>
 <style>
 html{
@@ -199,8 +280,8 @@ a{
     color: #fff;
 }
 .btn-green {
-  padding-top:4vw;
-  padding-bottom:4vw;
+  padding-top:2vw;
+  padding-bottom:2vw;
   color: #fff;
   background-color: #047857;
 }
@@ -223,10 +304,6 @@ a{
   cursor: pointer;
 }
 }
-.lside{
-  background-color: #f4f4f4;
-  height:720px;
-}
 .rside{
   background-color: #fff;
   height: 100%;
@@ -241,5 +318,6 @@ h4{
 }
 #lside{
   background-color: #d0d0d0;
+  height:90vh;
 }
 </style>

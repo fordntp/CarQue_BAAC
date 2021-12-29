@@ -17,7 +17,7 @@ include ('connect.php');
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
   </head>
 <body>
 <nav class="navbar navbar-expand  sticky-top bg-green">
@@ -32,34 +32,32 @@ include ('connect.php');
             <h5 class="p-3">ระบบจองยานพาหนะ <br> สำนักงาน ธ.ก.ส.จังหวัดสุราษฎร์ธานี</h5>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li id="ic" onclick="window.location.href='home.php'" ><img src="img/house-fill.svg" width="50px" height="50px"/></li>
+            <li id="ic" onclick="window.location.href='report.php'" ><img src="img/house-fill.svg" width="50px" height="50px"/></li>
                 <li id="ic" onclick="window.location.href=href='check_logout.php?user_logout'"  class="pl-4"><img src="img/box-arrow-right.svg" width="50px" height="50px"/></li>
             </ul>
     </nav>
     <!--Navbar End-->
     <div class="row row-height">
-      <div id="lside" class="col-2 p-4 col-auto row-height lside">
-      <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
-        <button id="c_request" onclick="window.location.href='form_request.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">สร้างคำร้องขอ</button>
-        <button id="contact" onclick="window.location.href='contact.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลการติดต่อ</button>
-        <button id="contact" onclick="window.location.href='car_for_user.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลรถ</button>
+    <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-start flex-column  lside">
+      <button id="car_info" onclick="window.location.href='employees.php'" class="btn btn-block btn-green">ข้อมูลพนักงานทั้งหมด</button>
+        <button id="car_info" onclick="window.location.href='car_info.php'" class="btn btn-block btn-green">ข้อมูลรถยนต์</button>
+        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงานขับรถ</button>
+        <button id="report" onclick="window.location.href='report.php'" class="btn btn-block btn-green">รายงานการจอง</button>
+        <button id="approve" onclick="window.location.href='ap_manage.php'" class="btn btn-block btn-green">ผู้อนุมัติ</button>
       </div>
       <div class="col-10 p-5 row-height rside text-center">
-        <h4 class="pb-4" style="color:black;">การจองของคุณ<?php echo $_SESSION["u_fname"]?></h4>
+      <h4 class="pb-4" style="color:black;">รายงานการจอง</h4>
       <table id="myTable" class="table table-bordered">
           <thead>
             <tr>
-              <th>วัน</th>
-              <th>เวลา</th>
-              <th>สถานที่</th>
-              <th>ปฏิบัติงาน</th>
-              <th>ทะเบียนรถ</th>
-              <th>ผู้ขับ</th>
+              <th>ชื่อ</th>
+              <th>ตำแหน่ง</th>
+              <th>เบอร์โทร</th>
               <th>สถานะ</th>
             </tr>
           </thead>
           <?php
-            $sql = "SELECT * FROM form_table  WHERE uc_name = '$_SESSION[u_name]'";
+            $sql = "SELECT * FROM emp_table";
             $result = $conn->query($sql);
         ?>
           <tbody>
@@ -69,13 +67,12 @@ include ('connect.php');
                 $i++;
             ?>
             <tr>
-              <td><?php echo $row["due_date"];?></td>
-              <td><?php echo $row["time_start"];?></td>
-              <td><?php echo $row["workplace"];?></td>
-              <td><?php echo $row["work_title"];?></td>
-              <td><?php echo $row["car_num"];?></td>
-              <td><?php echo $row["d_fname"];?></td>
-              <td id="st"><?php echo $row["q_status"];?></td>
+              <td><?php echo $row["emp_fname"], '  ' ,$row["emp_lname"];?></td>
+              <td><?php echo $row["job_title"];?></td>
+              <td><?php echo $row["emp_tel"];?></td>
+              <td>
+              <?php echo $row["emp_po_name"];?>
+              </td>
             </tr>
             <?php } ?>
           </tbody>
@@ -88,30 +85,51 @@ include ('connect.php');
   $(document).ready( function () {
       $('#myTable').DataTable();
   } );
+  function select(data) {
+    $("#confirm_insert").hide();
+    $.ajax({
+        url: "employees_back.php",
+        type: "POST",
+        dataType: "json",
+        data: { 
+            user: "select_emp",
+            emp_po: $("#emp1").val(),
+            emp_id: data
+        },
+        success: function(response){
+            console.log(response)
+        }
+    }) 
+}
 </script>
 <style>
-.dataTables_info{
-  font-size: 1vw;
-}
-.table, .dataTables_length, .dataTables_filter, .paginate_button{
-  font-size:1.2vw;
+html{
+  overflow-x: hidden;
 }
 body{
   background-color:#fff;
   font-family: 'Kanit', sans-serif;
-  font-size:1.5rem;
+  font-size:1vw;
   color: #fff;
-  overflow-y: hidden;
   overflow-x: hidden;
+}
+.modal{
+  color:#000;
 }
 a{
     color: #fff;
 }
 .btn-green {
+  padding-top:2vw;
+  padding-bottom:2vw;
   color: #fff;
   background-color: #047857;
 }
-.bg-green {
+.bg-green{
+  color: #fff;
+  background-color: #047857;
+}
+.card{
   color: #fff;
   background-color: #047857;
 }
@@ -121,14 +139,10 @@ a{
 }
 .navbar{
     height:100px;
-
 }
 #ic:hover{
   cursor: pointer;
 }
-}
-.lside{
-  background-color: #f4f4f4;
 }
 .rside{
   background-color: #fff;
@@ -136,11 +150,14 @@ a{
 }
 .table{
   color:#000;
-  font-size:0.8rem;
+  font-size:1vw;
+}
+h4{
+  color:black;
+  text-decoration: underline;
 }
 #lside{
-  height: 100vh;
   background-color: #d0d0d0;
+  height:90vh;
 }
-
 </style>

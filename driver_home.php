@@ -17,7 +17,7 @@ include ('connect.php');
     <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
   </head>
 <body>
 <nav class="navbar navbar-expand  sticky-top bg-green">
@@ -29,23 +29,17 @@ include ('connect.php');
           </button>
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto" >
-            <h5 class="p-3">ระบบจองยานพาหนะ <br> สำนักงาน ธ.ก.ส.จังหวัดสุราษฎร์ธานี</h5>
+            <h5 class="p-3">ระบบจองยานพาหนะ<br> สำนักงาน ธ.ก.ส.จังหวัดสุราษฎร์ธานี</h5>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li id="ic" onclick="window.location.href='home.php'" ><img src="img/house-fill.svg" width="50px" height="50px"/></li>
+            <li id="ic" onclick="window.location.href='report.php'" ><img src="img/house-fill.svg" width="50px" height="50px"/></li>
                 <li id="ic" onclick="window.location.href=href='check_logout.php?user_logout'"  class="pl-4"><img src="img/box-arrow-right.svg" width="50px" height="50px"/></li>
             </ul>
     </nav>
     <!--Navbar End-->
     <div class="row row-height">
-      <div id="lside" class="col-2 p-4 col-auto row-height lside">
-      <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
-        <button id="c_request" onclick="window.location.href='form_request.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">สร้างคำร้องขอ</button>
-        <button id="contact" onclick="window.location.href='contact.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลการติดต่อ</button>
-        <button id="contact" onclick="window.location.href='car_for_user.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลรถ</button>
-      </div>
-      <div class="col-10 p-5 row-height rside text-center">
-        <h4 class="pb-4" style="color:black;">การจองของคุณ<?php echo $_SESSION["u_fname"]?></h4>
+      <div class="col-12 p-5 row-height rside text-center">
+      <h4 class="pb-4" style="color:black;">ตารางการขับรถของ <?php echo $_SESSION["u_fname"]?></h4>
       <table id="myTable" class="table table-bordered">
           <thead>
             <tr>
@@ -54,12 +48,12 @@ include ('connect.php');
               <th>สถานที่</th>
               <th>ปฏิบัติงาน</th>
               <th>ทะเบียนรถ</th>
-              <th>ผู้ขับ</th>
-              <th>สถานะ</th>
+              <th>ผู้จอง</th>
+              <th>เบอร์โทรผู้จอง</th>
             </tr>
           </thead>
           <?php
-            $sql = "SELECT * FROM form_table  WHERE uc_name = '$_SESSION[u_name]'";
+            $sql = "SELECT * FROM form_table where d_fname = '$_SESSION[u_fname]' and q_status = 'อนุมัติ'";
             $result = $conn->query($sql);
         ?>
           <tbody>
@@ -74,8 +68,8 @@ include ('connect.php');
               <td><?php echo $row["workplace"];?></td>
               <td><?php echo $row["work_title"];?></td>
               <td><?php echo $row["car_num"];?></td>
-              <td><?php echo $row["d_fname"];?></td>
-              <td id="st"><?php echo $row["q_status"];?></td>
+              <td><?php echo $row["u_fname"];?></td>
+              <td><?php echo $row["u_tel"];?></td>
             </tr>
             <?php } ?>
           </tbody>
@@ -90,28 +84,33 @@ include ('connect.php');
   } );
 </script>
 <style>
-.dataTables_info{
-  font-size: 1vw;
-}
-.table, .dataTables_length, .dataTables_filter, .paginate_button{
-  font-size:1.2vw;
+html{
+  overflow-x: hidden;
 }
 body{
   background-color:#fff;
   font-family: 'Kanit', sans-serif;
-  font-size:1.5rem;
+  font-size:1vw;
   color: #fff;
-  overflow-y: hidden;
   overflow-x: hidden;
+}
+.modal{
+  color:#000;
 }
 a{
     color: #fff;
 }
 .btn-green {
+  padding-top:4vw;
+  padding-bottom:4vw;
   color: #fff;
   background-color: #047857;
 }
-.bg-green {
+.bg-green{
+  color: #fff;
+  background-color: #047857;
+}
+.card{
   color: #fff;
   background-color: #047857;
 }
@@ -121,7 +120,6 @@ a{
 }
 .navbar{
     height:100px;
-
 }
 #ic:hover{
   cursor: pointer;
@@ -129,6 +127,7 @@ a{
 }
 .lside{
   background-color: #f4f4f4;
+  height:720px;
 }
 .rside{
   background-color: #fff;
@@ -136,11 +135,13 @@ a{
 }
 .table{
   color:#000;
-  font-size:0.8rem;
+  font-size:1vw;
+}
+h4{
+  color:black;
+  text-decoration: underline;
 }
 #lside{
-  height: 100vh;
   background-color: #d0d0d0;
 }
-
 </style>

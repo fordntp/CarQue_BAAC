@@ -72,7 +72,8 @@ include 'connect.php';
       </select>
     </div>
     <?php
-        $sql = "SELECT * FROM `car_table`";            
+        $sql = "SELECT car_brand,car_table.car_num FROM `car_table` CROSS JOIN form_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = ''
+        ";            
         $result = $conn->query($sql);
         ?>
     <div class="form-group col-md-6">
@@ -113,6 +114,9 @@ function checkform1(){
                     car_num: $("#car_num").val(),
                 },
                 success: function (response) {
+                    location.href = 'home.php';
+                },
+                error: function (response) {
                     location.href = 'home.php';
                 }
             })

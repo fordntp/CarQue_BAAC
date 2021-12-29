@@ -38,9 +38,10 @@ include 'connect.php';
     </nav>
     <!--Navbar End-->
     <div class="row row-height">
-      <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-between flex-column  lside">
+      <div id="lside" class="col-2 p-4 col-auto row-height d-flex justify-content-start flex-column  lside">
+      <button id="car_info" onclick="window.location.href='employees.php'" class="btn btn-block btn-green">ข้อมูลพนักงานทั้งหมด</button>
         <button id="car_info" onclick="window.location.href='car_info.php'" class="btn btn-block btn-green">ข้อมูลรถยนต์</button>
-        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงาน</button>
+        <button id="driver_info" onclick="window.location.href='driver_info.php'" class="btn btn-block btn-green">ข้อมูลพนักงานขับรถ</button>
         <button id="report" onclick="window.location.href='report.php'" class="btn btn-block btn-green">รายงานการจอง</button>
         <button id="approve" onclick="window.location.href='ap_manage.php'" class="btn btn-block btn-green">ผู้อนุมัติ</button>
       </div>
@@ -70,6 +71,7 @@ include 'connect.php';
       </div>
       <div class="editcar p-5 float-right">
         <button name="toaddcar" id="toaddcar" class="btn btn-success" href="#" type="button" data-toggle="modal" data-target=".add" >เพิ่มข้อมูลรถ</button>
+        <button name="toeditcar" id="toeditcar" class="btn btn-warning" href="#" type="button" data-toggle="modal" data-target=".edit" onclick="return select()" >แก้ไขข้อมูล</button>
         <button name="toremovecar" id="toremovecar" class="btn btn-danger" href="#" type="button" data-toggle="modal" data-target=".remove">ลบข้อมูล</button>
       </div>      
       <div class="modal fade add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,7 +116,6 @@ include 'connect.php';
             $sql = "SELECT * FROM car_table";
             $result = $conn->query($sql);
         ?>
-        
             <form>
               <div class="form-group">
               <select class="form-select form-control" aria-label="Default select example"  id="car_num2" name="car_num2" >
@@ -127,7 +128,6 @@ include 'connect.php';
                         <?php echo $row["car_num"];?>
                     </option> 
                     <?php } ?>
-
               </select>
               </div>
             </form>
@@ -135,6 +135,48 @@ include 'connect.php';
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" name="removecar" id="removecar" class="btn btn-danger" onclick="return removecar()">ลบข้อมูล</button>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="modal fade edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">แก้ไขข้อมูลรถ</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <?php
+            $sql = "SELECT * FROM car_table";
+            $result = $conn->query($sql);
+        ?>
+            <form>
+              <div class="form-group">
+              <select class="form-select form-control" aria-label="Default select example"  id="car_num3" name="car_num3" onchange="return select()">
+              <?php 
+                        $i = 0;
+                        while($row = $result->fetch_assoc()){
+                            $i++;
+                        ?>
+                    <option   value="<?php echo $row["car_num"];?>" selected>
+                        <?php echo $row["car_num"];?>
+                    </option> 
+                    <?php } ?>
+              </select>
+              <label for="car_brand" class="col-form-label">ยี่ห้อรถ</label>
+                <input type="text" class="form-control" id="ecar_brand" val="">
+                <label for="car_num" class="col-form-label">ทะเบียนรถ</label>
+                <input type="text" class="form-control" id="ecar_num" val="">
+                <label for="car_val" class="col-form-label">จำนวนที่นั่ง</label>
+                <input type="text" class="form-control" id="ecar_val" val="">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" name="editcar" id="editcar" class="btn btn-warning" onclick="return editcar()">แก้ไขข้อมูล</button>
           </div>
         </div>
       </div>
@@ -181,6 +223,43 @@ function addcar(){
                 }
             });
     }
+    function select(){
+    $("#alert_login").hide();
+            $.ajax({
+                url: "editcar_back.php",
+                type: "GET",
+                dataType: "json",
+                data: { 
+                    user: "select_edit",
+                    car_num3: $("#car_num3").val(),
+                },
+                success: function(response){
+                console.log(response)
+                $("#ecar_brand").val(response.car_brand);
+                $("#ecar_num").val(response.car_num);
+                $("#ecar_val").val(response.car_val);
+                }
+            });
+    }
+    function editcar(){
+  $("#alert_login").hide();
+            $.ajax({
+                url: "editcar_back.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    user: "editcar",
+                    car_num3: $("#car_num3").val(),
+                    car_brand: $("#ecar_brand").val(),
+                    car_num: $("#ecar_num").val(),
+                    car_val: $("#ecar_val").val(),
+                },
+                success: function (response) {
+                    alert("แก้ไขสำเร็จ!");
+                    location.href = 'car_info.php';
+                }
+            });
+    }
 </script>
 <style>
 html{
@@ -200,8 +279,8 @@ a{
     color: #fff;
 }
 .btn-green {
-  padding-top:4vw;
-  padding-bottom:4vw;
+  padding-top:2vw;
+  padding-bottom:2vw;
   color: #fff;
   background-color: #047857;
 }
@@ -224,10 +303,6 @@ a{
   cursor: pointer;
 }
 }
-.lside{
-  background-color: #f4f4f4;
-  height:720px;
-}
 .rside{
   background-color: #fff;
   height: 100%;
@@ -242,5 +317,6 @@ h4{
 }
 #lside{
   background-color: #d0d0d0;
+  height:90vh;
 }
 </style>

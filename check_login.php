@@ -16,9 +16,18 @@ if($_POST["submit"] == "login"){
         if($_SESSION["po_name"] == "admin"){
             echo "admin";
             header("Location: ap_manage.php");
-        }else{
+        }
+        else if($_SESSION["po_name"] == "user"){
             echo "user";
             header("Location: home.php");
+        }
+        else if($_SESSION["po_name"] == "Driver"){
+            echo "user";
+            header("Location: driver_home.php");
+        }
+        else if($_SESSION["po_name"] == "approver"){
+            echo "user";
+            header("Location: approver_home.php");
         }
     }else{
         header("Location: index.php?status=not");

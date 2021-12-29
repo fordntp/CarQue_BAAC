@@ -40,9 +40,10 @@ include 'connect.php';
     <!--Navbar End-->
     <div class="row row-height">
     <div id="lside" class="col-2 p-4 col-auto row-height lside">
-        <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
+    <button id="home" onclick="window.location.href='home.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">หน้าแรก</button>
         <button id="c_request" onclick="window.location.href='form_request.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">สร้างคำร้องขอ</button>
         <button id="contact" onclick="window.location.href='contact.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลการติดต่อ</button>
+        <button id="contact" onclick="window.location.href='car_for_user.php'" class="btn btn-block pt-4 pb-4 btn-green mb-4">ข้อมูลรถ</button>
       </div>
       <div class="col-10 p-5 row-height rside">
     <div class="row">
@@ -146,7 +147,7 @@ include 'connect.php';
     </div>
     <div class="form-group col-md-6">
       <label for=num_worker>จำนวนผู้เดินทาง</label>
-      <select class="form-select form-control" aria-label="Default select example"  id="num_worker" name="num_worker">
+      <select class="form-select form-control" aria-label="Default select example"  id="num_worker" name="num_worker" >
         <option value="1" selected>1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -195,7 +196,9 @@ function checkform(){
                     u_name: $("#u_name").val(),
                 },
                 success: function (response) {
-                    alert("บันทึกแบบฟอร์มสำเร็จ");
+                    location.href = 'select_car.php';
+                },
+                error: function (response) {
                     location.href = 'select_car.php';
                 }
             })
