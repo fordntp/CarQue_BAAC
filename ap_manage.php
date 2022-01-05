@@ -22,6 +22,8 @@ include 'connect.php';
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
   </head>
 <body>
 <nav class="navbar navbar-expand  sticky-top bg-green">
@@ -62,6 +64,7 @@ include 'connect.php';
               <th>ผู้ขับ</th>
               <th>ผู้จอง</th>
               <th>สถานะ</th>
+              <th>การจัดการ</th>
             </tr>
           </thead>
           <?php
@@ -88,6 +91,8 @@ include 'connect.php';
                   <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
                   </select>
                 </td>
+                <td ><a name="removecar" href="ap_manage_back.php?user=del&form_id=<?php echo intval($row['form_id']);?>" class="btn btn-danger" style="color:white; font-size:0.7vw;" onclick="return del()">คลิกเพื่อยกเลิก 
+</a></td>             
             </tr>
             <?php } ?>
           </tbody>
@@ -100,6 +105,12 @@ include 'connect.php';
 </body>
 </html>
   <script>
+    function del() {
+                            var r = confirm("คุณยืนยันจะลบข้อมูลหรือไม่ ?");
+                            if(r == false){
+                                return false;
+                            }
+                        }
     $(document).ready( function () {
     $('#myTable').DataTable();
 } );

@@ -9,4 +9,13 @@ if(isset($_POST['user'])){
     }
 }
 }
+
+if(isset($_GET['user'])){
+    if($_GET['user'] == "del"){
+        $sql = "DELETE FROM form_table WHERE form_id = '$_GET[form_id]'";
+        $result = $conn->query($sql);
+        echo json_encode($result);
+        echo "<script>alert(\"ลบข้อมูลเสร็จสิ้น !!\"); window.location=\"ap_manage.php\"</script>";
+    }
+}
 ?>

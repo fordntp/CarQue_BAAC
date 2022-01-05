@@ -117,6 +117,7 @@ include 'connect.php';
         
             <form>
               <div class="form-group">
+              <label for="del_dri" class="col-form-label float-left">เลือกรายชื่อที่ต้องการลบ</label>
               <select class="form-select form-control" aria-label="Default select example"  id="d_fname2" name="d_fname2" >
               <?php 
                         $i = 0;
@@ -155,6 +156,7 @@ include 'connect.php';
         ?>
             <form>
               <div class="form-group">
+              <label for="sel_dri" class="col-form-label float-left">เลือกรายชื่อที่ต้องการแก้ไข</label>
               <select class="form-select form-control" aria-label="Default select example"  id="d_id1" name="d_id1" onchange="return select()">
               <?php 
                         $i = 0;

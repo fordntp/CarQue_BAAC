@@ -17,7 +17,6 @@ include 'connect.php';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200&display=swap" rel="stylesheet">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
   </head>
 <body>
 <nav class="navbar navbar-expand  sticky-top bg-green">
@@ -118,6 +117,7 @@ include 'connect.php';
         ?>
             <form>
               <div class="form-group">
+              <label for="del_car" class="col-form-label float-left">เลือกรถที่ต้องการลบ</label>
               <select class="form-select form-control" aria-label="Default select example"  id="car_num2" name="car_num2" >
               <?php 
                         $i = 0;
@@ -155,6 +155,7 @@ include 'connect.php';
         ?>
             <form>
               <div class="form-group">
+              <label for="sel_car" class="col-form-label float-left">เลือกรถที่ต้องการแก้ไข</label>
               <select class="form-select form-control" aria-label="Default select example"  id="car_num3" name="car_num3" onchange="return select()">
               <?php 
                         $i = 0;
