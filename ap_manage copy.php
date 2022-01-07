@@ -160,7 +160,7 @@ include 'connect.php';
                   <option value="ไม่อนุมัติ">ไม่อนุมัติ</option>
                   </select>
                 </td>
-                <td ><a name="removecar" href="ap_manage_back.php?user=del&form_id=<?php echo intval($row['form_id']);?>" class="btn btn-danger" style="color:white; font-size:0.7vw; " onclick="return del()" >คลิกเพื่อยกเลิก 
+                <td ><a name="removecar" href="ap_manage_back.php?user=del&form_id=<?php echo intval($row['form_id']);?>" class="btn btn-danger" style="color:white; font-size:0.7vw;" onclick="return del()">คลิกเพื่อยกเลิก 
 </a></td>             
             </tr>
             <?php } ?>
