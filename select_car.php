@@ -55,25 +55,55 @@ include 'connect.php';
     </div>
   <div class="form-row">
   <?php
-            $sql = "SELECT * FROM `driver_table` ";
+            $sql = "SELECT * FROM `form_table` left JOIN Driver_table ON form_table.d_fname != driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '' 
+            AND Driver_table.d_fname NOT IN (SELECT DISTINCT form_table.d_fname FROM `form_table` RIGHT JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+                  AND time_start BETWEEN 
+                  
+                    (SELECT DISTINCT time_start FROM `form_table` left JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '') 
+                    AND (SELECT DISTINCT time_end FROM `form_table` left JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '') 
+                      
+                  OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+                  AND time_end BETWEEN  
+                    
+                     (SELECT DISTINCT time_start FROM `form_table` left JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '') 
+                    AND (SELECT DISTINCT time_end FROM `form_table` left JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '') 
+                    
+                   OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_start < (SELECT DISTINCT time_start FROM `form_table` left JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '') 
+                   
+                   AND due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) 
+                   AND time_end > (SELECT DISTINCT time_end FROM `form_table` left JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '')
+                    )";
             $result = $conn->query($sql);
         ?>
     <div class="form-group col-md-6">
       <label for=d_fname>ชื่อผู้ขับ</label>
       <select class="form-select form-control" aria-label="Default select example"  id="d_fname" name="d_fname">
+        <option value="ขับเอง" selected>ขับเอง</option>
       <?php 
         $i = 0;
           while($row = $result->fetch_assoc()){
             $i++;?>
-          <option  value="<?php echo $row["d_fname"];?>" selected>
+          <option  value="<?php echo $row["d_fname"];?>" >
           <?php echo $row["d_fname"], " ", $row["d_lname"];?>
           </option> 
       <?php } ?>
       </select>
     </div>
     <?php
-        $sql = "SELECT car_brand,car_table.car_num FROM `car_table` CROSS JOIN form_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = ''
-        ";            
+        $sql = "SELECT * FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '' AND car_table.car_num NOT IN (SELECT DISTINCT form_table.car_num FROM `form_table` RIGHT JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+        AND time_start BETWEEN 
+        
+          (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+            
+        OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+        AND time_end BETWEEN  
+          
+            (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+         OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_start < (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')  AND due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_end > (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+         
+          )";            
         $result = $conn->query($sql);
         ?>
     <div class="form-group col-md-6">

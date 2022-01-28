@@ -50,6 +50,8 @@ include ('connect.php');
               <th>ทะเบียนรถ</th>
               <th>ผู้จอง</th>
               <th>เบอร์โทรผู้จอง</th>
+              <th>สถานะ</th>
+
             </tr>
           </thead>
           <?php
@@ -70,6 +72,31 @@ include ('connect.php');
               <td><?php echo $row["car_num"];?></td>
               <td><?php echo $row["u_fname"];?></td>
               <td><?php echo $row["u_tel"];?></td>
+              <td><?php
+              if ($row["q_status"] === "อนุมัติ") {
+                if ($row["due_date"] < date("Y-m-d")){
+                  echo "<p style='color:white;background-color:#22B63B;'>เสร็จสิ้น </p>";
+                }
+                elseif($row["due_date"] === date("Y-m-d")){
+                  if($row["time_end"] < date("H:I"))
+                    {
+                      echo "<p style='color:white;background-color:#22B63B;'>เสร็จสิ้น </p>";
+                    }
+                  elseif(date("H:I") >= $row["time_start"] and date("H:I") <= $row["time_end"]){
+                    echo "<p style='color:white;background-color:gray;'>กำลังดำเนินการ </p>";
+                    }
+                  else{
+                      echo "<p style='color:white;background-color:#3A51BB;'> $row[q_status] </p>" ;
+                    }
+                }
+                else{
+                  echo "<p style='color:white;background-color:#3A51BB;'> $row[q_status] </p>";
+                }
+              } elseif ($row["q_status"] === "รออนุมัติ") {
+                echo "<p style='color:white;background-color:#F1C23C;'> $row[q_status] </p>"; }
+                elseif ($row["q_status"] === "ไม่อนุมัติ") {
+                  echo "<p style='color:white;background-color:#DB4747;'> $row[q_status] </p>";}
+              ?></td>
             </tr>
             <?php } ?>
           </tbody>

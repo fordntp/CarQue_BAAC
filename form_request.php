@@ -51,15 +51,30 @@ include 'connect.php';
         <h4>สร้างคำขอ</h4>
       </div>
     </div>
-  <div class="form-row">
+    <div class="form-row">
     <div class="form-group col-md-6">
       <label for=u_fname>ชื่อผู้ขออนุญาต</label>
-      <input type="text" class="form-control" id="u_fname" placeholder="กนก กิจดี">
+      <?php
+         $emsql = "SELECT * FROM `emp_table`" ;
+        $emresult = $conn->query($emsql);
+       ?>
+      <input class="form-select form-control" aria-label="Default select example" placeholder="ชื่อ นามสกุล" list="select"  id="u_fname">  
+      <datalist  id="select">       
+        <?php 
+        $i = 0;
+          while($emrow = $emresult->fetch_assoc()){
+            $i++;?>
+          <option  value="<?php echo $emrow["emp_fname"], " ", $emrow["emp_lname"];?>" >
+          </option> 
+                <?php } ?>
+          </datalist>
+          </input>
     </div>
+
     <form name="form" action="" method="POST">
       <div class="form-group col-md-6">
         <label for="datepicker">วันที่ขออนุญาต</label>
-        <input class="form-control" data-date-format="yyyy-mm-dd" id="datepicker" style="width:500px;">
+        <input class="form-control" data-date-format="yyyy-mm-dd"  id="datepicker" style="width:500px;">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script><script type="text/javascript">
@@ -143,21 +158,27 @@ include 'connect.php';
     </div>
     <div class="form-group col-md-6">
       <label for=workplace>สถานที่ปฏิบัติงาน</label>
-      <input type="text" class="form-control" id="workplace" placeholder="สาขาพนม...">
+      <input class="form-select form-control" aria-label="Default select example" list="selectp" id="workplace" placeholder="สาขาพนม...">  
+      <datalist  id="selectp">       
+          <option  value="สาขาเมืองสุราษฎร์" ></option> 
+          <option  value="สาขาไชยา" ></option> 
+          <option  value="สาขาพนม" ></option> 
+          </datalist>
+          </input>
     </div>
     <div class="form-group col-md-6">
       <label for=num_worker>จำนวนผู้เดินทาง</label>
       <select class="form-select form-control" aria-label="Default select example"  id="num_worker" name="num_worker" >
-        <option value="1" selected>1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
+        <option value="1" selected>1 คน</option>
+        <option value="2">2 คน</option>
+        <option value="3">3 คน</option>
+        <option value="4">4 คน</option>
+        <option value="5">5 คน</option>
+        <option value="6">6 คน</option>
+        <option value="7">7 คน</option>
+        <option value="8">8 คน</option>
+        <option value="9">9 คน</option>
+        <option value="10">10 คน</option>
       </select>
     </div>
   </div>

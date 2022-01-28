@@ -82,11 +82,11 @@ include ('connect.php');
                   echo "<p style='color:white;background-color:#22B63B;'>เสร็จสิ้น </p>";
                 }
                 elseif($row["due_date"] === date("Y-m-d")){
-                  if($row["time_end"] < date("h:i"))
+                  if($row["time_end"] < date("H:I"))
                     {
                       echo "<p style='color:white;background-color:#22B63B;'>เสร็จสิ้น </p>";
                     }
-                  elseif(date("h:i") >= $row["time_start"] and date("h:i") <= $row["time_end"]){
+                  elseif(date("H:I") >= $row["time_start"] and date("H:I") <= $row["time_end"]){
                     echo "<p style='color:white;background-color:gray;'>กำลังดำเนินการ </p>";
                     }
                   else{
@@ -170,6 +170,6 @@ h4{
 }
 #lside{
   background-color: #d0d0d0;
-  height:90vh;
+  height:120vh;
 }
 </style>
