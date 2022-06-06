@@ -1487,7 +1487,6 @@ a{
 #ic:hover{
   cursor: pointer;
 }
-}
 .lside{
   background-color: #f4f4f4;
   height:720px;

@@ -62,7 +62,8 @@ include 'connect.php';
           <div class="card mt-3">
             <div class="card-body text-center">
             <?php echo $row["d_fname"], $row["d_lname"];?><br>
-            <?php echo 'เบอร์โทร', $row["d_tel"];?> 
+            <?php echo 'เบอร์โทร', $row["d_tel"];?><br>
+            <?php echo 'สถานภาพ', ' : ' ,$row["d_status"];?> 
             </div>
           </div>
         </div><?php } ?>
@@ -90,6 +91,12 @@ include 'connect.php';
                 <input type="text" class="form-control" id="d_lname">
                 <label for="d_tel" class="col-form-label">เบอร์โทรพนักงาน</label>
                 <input type="text" class="form-control" id="d_tel">
+                <select class="form-select btn-block text-center" aria-label="Default select example"  id="d_status" name="d_status">
+                    <option  value="ทำงาน" selected>ทำงาน
+                    </option> 
+                    <option  value="พ้นสภาพ" selected>พ้นสภาพ
+                    </option> 
+                  </select>
               </div>
             </form>
           </div>
@@ -174,6 +181,13 @@ include 'connect.php';
                 <input type="text" class="form-control" id="ed_lname" val="">
                 <label for="d_tel" class="col-form-label">เบอร์โทร</label>
                 <input type="text" class="form-control" id="ed_tel" val="">
+                <label for="d_status" class="col-form-label">สถานภาพ</label>
+                <select class="form-select btn-block text-center" aria-label="Default select example"  id="ed_status" name="d_status">
+                    <option  value="ทำงาน" selected>ทำงาน
+                    </option> 
+                    <option  value="พ้นสภาพ" selected>พ้นสภาพ
+                    </option> 
+                  </select>
             </form>
           </div>
           <div class="modal-footer">
@@ -202,6 +216,7 @@ function add_drive(){
                     d_fname: $("#d_fname").val(),
                     d_lname: $("#d_lname").val(),
                     d_tel: $("#d_tel").val(),
+                    d_status: $("#d_status").val(),
                 },
                 success: function (response) {
                     alert("เพิ่มรถสำเร็จ!");
@@ -241,6 +256,7 @@ function add_drive(){
                 $("#ed_fname").val(response.d_fname);
                 $("#ed_lname").val(response.d_lname);
                 $("#ed_tel").val(response.d_tel);
+                $("#ed_status").val(response.d_status);
                 }
             });
     }
@@ -256,6 +272,7 @@ function add_drive(){
                     d_fname: $("#ed_fname").val(),
                     d_lname: $("#ed_lname").val(),
                     d_tel: $("#ed_tel").val(),
+                    d_status: $("#ed_status").val(),
                 },
                 success: function (response) {
                     alert("แก้ไขสำเร็จ!");
@@ -304,7 +321,6 @@ a{
 }
 #ic:hover{
   cursor: pointer;
-}
 }
 .rside{
   background-color: #fff;

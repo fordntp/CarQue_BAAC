@@ -83,8 +83,10 @@ include 'connect.php';
                 daysOfWeekHighlighted: "6,0",
                 autoclose: true,
                 todayHighlight: true,
+                startDate: "today"
             });
             $('#datepicker').datepicker("setDate", new Date());
+            
         </script>
       </div>
     </form>
@@ -97,59 +99,107 @@ include 'connect.php';
         <label for=time_start>เวลา ออกเดินทาง</label>
         <select class="form-select form-control" aria-label="Default select example"  id="time_start" name="time_start" onchange="return time_select()">
           <option value="00:00" selected>00:00</option>
+          <option value="03:00">00:30</option>
           <option value="01:00">01:00</option>
+          <option value="01:00">01:30</option>
           <option value="02:00">02:00</option>
+          <option value="01:00">02:30</option>
           <option value="03:00">03:00</option>
+          <option value="03:00">03:30</option>
           <option value="04:00">04:00</option>
+          <option value="03:00">04:30</option>
           <option value="05:00">05:00</option>
+          <option value="03:00">05:30</option>
           <option value="06:00">06:00</option>
+          <option value="03:00">06:30</option>
           <option value="07:00">07:00</option>
+          <option value="03:00">07:30</option>
           <option value="08:00">08:00</option>
+          <option value="03:00">08:30</option>
           <option value="09:00">09:00</option>
+          <option value="03:00">09:30</option>
           <option value="10:00">10:00</option>
+          <option value="03:00">10:30</option>
           <option value="11:00">11:00</option>
+          <option value="03:00">11:30</option>
           <option value="12:00">12:00</option>
+          <option value="03:00">12:30</option>
           <option value="13:00">13:00</option>
+          <option value="03:00">13:30</option>
           <option value="14:00">14:00</option>
+          <option value="03:00">14:30</option>
           <option value="15:00">15:00</option>
+          <option value="03:00">15:30</option>
           <option value="16:00">16:00</option>
+          <option value="03:00">16:30</option>
           <option value="17:00">17:00</option>
+          <option value="03:00">17:30</option>
           <option value="18:00">18:00</option>
+          <option value="03:00">18:30</option>
           <option value="19:00">19:00</option>
+          <option value="03:00">19:30</option>
           <option value="20:00">20:00</option>
+          <option value="03:00">20:30</option>
           <option value="21:00">21:00</option>
+          <option value="03:00">21:30</option>
           <option value="22:00">22:00</option>
+          <option value="03:00">22:30</option>
           <option value="23:00">23:00</option>
+          <option value="03:00">23:30</option>
         </select>
         </form>
     </div>
     <div class="form-group col-md-6">
       <label for=time_end>เวลา กลับเดินทาง</label>
       <select class="form-select form-control" aria-label="Default select example"  id="time_end" name="time_end">
-        <option value="00:00" selected>00:00</option>
-        <option value="01:00">01:00</option>
-        <option value="02:00">02:00</option>
-        <option value="03:00">03:00</option>
-        <option value="04:00">04:00</option>
-        <option value="05:00">05:00</option>
-        <option value="06:00">06:00</option>
-        <option value="07:00">07:00</option>
-        <option value="08:00">08:00</option>
-        <option value="09:00">09:00</option>
-        <option value="10:00">10:00</option>
-        <option value="11:00">11:00</option>
-        <option value="12:00">12:00</option>
-        <option value="13:00">13:00</option>
-        <option value="14:00">14:00</option>
-        <option value="15:00">15:00</option>
-        <option value="16:00">16:00</option>
-        <option value="17:00">17:00</option>
-        <option value="18:00">18:00</option>
-        <option value="19:00">19:00</option>
-        <option value="20:00">20:00</option>
-        <option value="21:00">21:00</option>
-        <option value="22:00">22:00</option>
-        <option value="23:00">23:00</option>
+      <option value="00:00" selected>00:00</option>
+          <option value="03:00">00:30</option>
+          <option value="01:00">01:00</option>
+          <option value="01:00">01:30</option>
+          <option value="02:00">02:00</option>
+          <option value="01:00">02:30</option>
+          <option value="03:00">03:00</option>
+          <option value="03:00">03:30</option>
+          <option value="04:00">04:00</option>
+          <option value="03:00">04:30</option>
+          <option value="05:00">05:00</option>
+          <option value="03:00">05:30</option>
+          <option value="06:00">06:00</option>
+          <option value="03:00">06:30</option>
+          <option value="07:00">07:00</option>
+          <option value="03:00">07:30</option>
+          <option value="08:00">08:00</option>
+          <option value="03:00">08:30</option>
+          <option value="09:00">09:00</option>
+          <option value="03:00">09:30</option>
+          <option value="10:00">10:00</option>
+          <option value="03:00">10:30</option>
+          <option value="11:00">11:00</option>
+          <option value="03:00">11:30</option>
+          <option value="12:00">12:00</option>
+          <option value="03:00">12:30</option>
+          <option value="13:00">13:00</option>
+          <option value="03:00">13:30</option>
+          <option value="14:00">14:00</option>
+          <option value="03:00">14:30</option>
+          <option value="15:00">15:00</option>
+          <option value="03:00">15:30</option>
+          <option value="16:00">16:00</option>
+          <option value="03:00">16:30</option>
+          <option value="17:00">17:00</option>
+          <option value="03:00">17:30</option>
+          <option value="18:00">18:00</option>
+          <option value="03:00">18:30</option>
+          <option value="19:00">19:00</option>
+          <option value="03:00">19:30</option>
+          <option value="20:00">20:00</option>
+          <option value="03:00">20:30</option>
+          <option value="21:00">21:00</option>
+          <option value="03:00">21:30</option>
+          <option value="22:00">22:00</option>
+          <option value="03:00">22:30</option>
+          <option value="23:00">23:00</option>
+          <option value="03:00">23:30</option>
       </select>
     </div>
     <div class="form-group col-md-6">
@@ -160,10 +210,41 @@ include 'connect.php';
       <label for=workplace>สถานที่ปฏิบัติงาน</label>
       <input class="form-select form-control" aria-label="Default select example" list="selectp" id="workplace" placeholder="สาขาพนม...">  
       <datalist  id="selectp">       
-          <option  value="สาขาเมืองสุราษฎร์" ></option> 
-          <option  value="สาขาไชยา" ></option> 
-          <option  value="สาขาพนม" ></option> 
-          </datalist>
+          <option  value="สำนักงาน ธ.ก.ส.จังหวัด" ></option> 
+          <option  value="สาขาบ้านเสด็จ" ></option> 
+          <option  value="สาขาทุ่งเตา" ></option> 
+          <option  value="สาขากรูด" ></option> 
+          <option  value="สาขาท่าโรงช้าง " ></option> 
+          <option  value="สาขาวิภาวดี" ></option> 
+          <option  value="สาขาบางสวรรค์" ></option> 
+          <option  value="สาขาเกาะพะงัน" ></option>
+          <option  value="สาขาชัยบุรี" ></option>
+          <option  value="สาขาพนม" ></option>
+          <option  value="สาขาย่อยควนสามัคคี" ></option> 
+          <option  value="สาขาเคียนซา" ></option> 
+          <option  value="สาขาท่าฉาง" ></option> 
+          <option  value="สาขาพระแสง" ></option> 
+          <option  value="สาขาเกาะสมุย" ></option> 
+          <option  value="สาขาเวียงสระ " ></option> 
+          <option  value="สาขาบ้านนาสาร" ></option> 
+          <option  value="สาขาบ้านนาเดิม" ></option>
+          <option  value="สาขาพุนพิน" ></option>
+          <option  value="สาขาย่อยบ้านใน" ></option>
+          <option  value="สาขาดอนสัก " ></option> 
+          <option  value="สาขาย่อยตลาดหนองหวาย" ></option> 
+          <option  value="สาขาท่าชนะ" ></option> 
+          <option  value="สาขาบ้านตาขุน" ></option> 
+          <option  value="สาขาย่อยโมถ่าย" ></option> 
+          <option  value="สาขาไชยา" ></option>
+          <option  value="สาขากาญจนดิษฐ์" ></option>
+          <option  value="สาขาย่อยบ้านทำเนียบ" ></option>
+          <option  value="สาขาคีรีรัฐนิคม" ></option>
+          <option  value="สาขาย่อยขุนทะเล" ></option> 
+          
+
+
+ 
+        </datalist>
           </input>
     </div>
     <div class="form-group col-md-6">
@@ -183,6 +264,7 @@ include 'connect.php';
     </div>
   </div>
   <input id="u_name" value="<?php echo $_SESSION["u_name"]?>" hidden>
+  <input id="t_car" value="รถเก๋ง" hidden>
   <div class="col-12 text-center">
   <div class="form-label">
         <center ><input class="mr-3" id="check_login" type="checkbox">ยืนยันข้อมูล</center>
@@ -215,6 +297,7 @@ function checkform(){
                     workplace: $("#workplace").val(),
                     num_worker: $("#num_worker").val(),
                     u_name: $("#u_name").val(),
+                    t_car: $("#t_car").val(),
                 },
                 success: function (response) {
                     location.href = 'select_car.php';
@@ -259,7 +342,7 @@ a{
 #ic:hover{
   cursor: pointer;
 }
-}
+
 .lside{
   background-color: #f4f4f4;
 }

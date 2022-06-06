@@ -54,7 +54,70 @@ include 'connect.php';
       </div>
     </div>
   <div class="form-row">
-  <?php
+    <?php
+        $sql = "SELECT DISTINCT car_type FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '' AND car_table.car_num NOT IN (SELECT DISTINCT form_table.car_num FROM `form_table` RIGHT JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+        AND time_start BETWEEN 
+        
+          (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+            
+        OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+        AND time_end BETWEEN  
+          
+            (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+         OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_start < (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')  AND due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_end > (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+         
+          )";            
+        $result = $conn->query($sql);
+        ?>
+    <div class="form-group col-md-4">
+      <label for=car_type>ประเภทรถ</label>
+      <select onchange="return checktype()" class="form-select form-control"  aria-label="Default select example"  id="car_type" name="car_type">
+      <option selected>
+            <?php echo $_SESSION['t_car'] ?>
+          </option>
+      <?php 
+        $i = 0;
+          while($row = $result->fetch_assoc()){
+            $i++;?>
+          <option    value="<?php echo $row["car_type"];?>">
+              <?php  echo $row["car_type"];?>
+          </option> 
+      <?php } ?>
+      </select>
+    </div>
+    <?php
+        $sql = "SELECT * FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '' AND car_table.car_type = form_table.t_car AND car_table.car_num NOT IN (SELECT DISTINCT form_table.car_num FROM `form_table` RIGHT JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) 
+        AND time_start BETWEEN 
+        
+          (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+            
+        OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
+        AND time_end BETWEEN  
+          
+            (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
+         OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_start < (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')  AND due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_end > (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
+          
+          )";            
+        $result = $conn->query($sql);
+        ?>
+    <div class="form-group col-md-4">
+      <label for=car_num>ทะเบียนรถที่ต้องการ</label>
+      <select class="form-select form-control" aria-label="Default select example"  id="car_num" name="car_num">
+      <?php 
+        $i = 0;
+          while($row = $result->fetch_assoc()){
+            $i++;?>
+          <option  value="<?php echo $row["car_num"];?>" selected>
+              <?php echo $row["car_num"];?>
+          </option> 
+      <?php } ?>
+      </select>
+    </div>
+    <?php
             $sql = "SELECT * FROM `form_table` left JOIN Driver_table ON form_table.d_fname != driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.d_fname = '' 
             AND Driver_table.d_fname NOT IN (SELECT DISTINCT form_table.d_fname FROM `form_table` RIGHT JOIN Driver_table ON form_table.d_fname != Driver_table.d_fname WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
                   AND time_start BETWEEN 
@@ -75,46 +138,17 @@ include 'connect.php';
                     )";
             $result = $conn->query($sql);
         ?>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
       <label for=d_fname>ชื่อผู้ขับ</label>
-      <select class="form-select form-control" aria-label="Default select example"  id="d_fname" name="d_fname">
+      <select   class="form-select form-control" aria-label="Default select example"  id="d_fname" name="d_fname">
         <option value="ขับเอง" selected>ขับเอง</option>
       <?php 
         $i = 0;
           while($row = $result->fetch_assoc()){
             $i++;?>
+
           <option  value="<?php echo $row["d_fname"];?>" >
           <?php echo $row["d_fname"], " ", $row["d_lname"];?>
-          </option> 
-      <?php } ?>
-      </select>
-    </div>
-    <?php
-        $sql = "SELECT * FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '' AND car_table.car_num NOT IN (SELECT DISTINCT form_table.car_num FROM `form_table` RIGHT JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
-        AND time_start BETWEEN 
-        
-          (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
-          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
-            
-        OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table))  
-        AND time_end BETWEEN  
-          
-            (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '') 
-          AND (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
-         OR due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_start < (SELECT DISTINCT time_start FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')  AND due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table )) AND time_end > (SELECT DISTINCT time_end FROM `form_table` left JOIN car_table ON form_table.car_num != car_table.car_num WHERE due_date IN (SELECT due_date FROM form_table WHERE form_id = (SELECT MAX(form_id) FROM form_table)) AND form_table.car_num = '')
-         
-          )";            
-        $result = $conn->query($sql);
-        ?>
-    <div class="form-group col-md-6">
-      <label for=car_num>ทะเบียนรถที่ต้องการ</label>
-      <select class="form-select form-control" aria-label="Default select example"  id="car_num" name="car_num">
-      <?php 
-        $i = 0;
-          while($row = $result->fetch_assoc()){
-            $i++;?>
-          <option  value="<?php echo $row["car_num"];?>" selected>
-              <?php echo $row["car_brand"],' ',$row["car_num"];?>
           </option> 
       <?php } ?>
       </select>
@@ -123,7 +157,6 @@ include 'connect.php';
   <input id="u_name" value="<?php echo $_SESSION["u_name"]?>" hidden>
   <div class="col-12 text-center">
   <button class="btn btn-green pl-5 pr-5 mt-2" type="submit" name="submit"  onclick="return checkform1()">ส่งคำขอ</button>
-
   </div>
       </div>
 
@@ -142,12 +175,31 @@ function checkform1(){
                     user: "update",
                     d_fname:$("#d_fname").val(),
                     car_num: $("#car_num").val(),
+                    car_type:$("#car_type").val(),
+
                 },
                 success: function (response) {
                     location.href = 'home.php';
                 },
                 error: function (response) {
                     location.href = 'home.php';
+                }
+            })
+}
+function checktype(){
+              $.ajax({
+                url: "typecar.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    user: "update",
+                    car_type:$("#car_type").val(),
+                },
+                success: function (response) {
+                  location.reload()
+                },
+                error: function (response) {
+                  location.reload()
                 }
             })
 }
@@ -185,7 +237,7 @@ a{
 #ic:hover{
   cursor: pointer;
 }
-}
+
 .lside{
   background-color: #f4f4f4;
 }

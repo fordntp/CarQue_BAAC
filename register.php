@@ -1,3 +1,8 @@
+<?php
+include 'connect.php';
+
+
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -35,6 +40,25 @@
         <input type="text" name="u_name" id="u_name" class="form-control" placeholder="Username" required autofocus>
         <label for="inputEmail">ชื่อผู้ใช้</label>
     </div>
+    <div>
+    <label for="State">ตำแหน่งพนักงาน : </label>
+    <?php
+            $sql = "SELECT * FROM position_table";
+            $result = $conn->query($sql);
+        ?>
+    <select class="form-select btn-block text-center" aria-label="Default select example"  id="u_emp" name="u_emp">
+                <?php 
+                        $i = 0;
+                        while($row = $result->fetch_assoc()){
+                            $i++;
+                        ?>
+                <option  value="<?php echo $row["po_id"];?>" selected>
+                        <?php echo $row["po_title"];?>
+                </option> 
+                <?php } ?>
+            </select>
+    </div>
+    <br>
     <div class="form-label-group">
         <input type="password" name="u_password" id="u_password" class="form-control" placeholder="รหัสผ่าน" required>
         <label for="inputPassword">รหัสผ่าน</label>
@@ -71,6 +95,7 @@ function check(){
                     u_lname: $("#u_lname").val(),
                     u_name: $("#u_name").val(),
                     u_password: $("#u_password").val(),
+                    u_emp:$("#u_emp").val()
                 },
                 success: function (response) {
                     alert("ลงทะเบียนเสร็จสิ้น");
@@ -83,6 +108,7 @@ function check(){
         }
     }
 }
+
 </script>
 </body>
 </html>

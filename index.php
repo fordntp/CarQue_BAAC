@@ -50,7 +50,6 @@
   </div>
   <?php } ?>
   <button class="btn btn-lg btn-green btn-block" type="submit" name="submit" value="login">เข้าสู่ระบบ</button>
-  <center class="m-3"><a href="register.php">สมัครบัญชีใหม่่</a></center>
     </form>
 </body>
 </html>

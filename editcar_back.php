@@ -10,7 +10,7 @@ if(isset($_GET['user'])){
 }
 if(isset($_POST['user'])){
     if($_POST['user'] == "editcar"){
-        $sql = "UPDATE car_table SET car_num = '$_POST[car_num]' ,car_brand = '$_POST[car_brand]', car_val = '$_POST[car_val]' where car_num = '$_POST[car_num3]'; ";
+        $sql = "UPDATE car_table SET car_num = '$_POST[car_num]' ,car_brand = '$_POST[car_brand]', car_val = '$_POST[car_val]',car_type = '$_POST[car_type2]' where car_num = '$_POST[car_num3]'; ";
         $result = $conn->query($sql);
         echo json_encode($data);
     }

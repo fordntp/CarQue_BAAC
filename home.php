@@ -130,7 +130,6 @@ include ('connect.php');
           </tbody>
       </table>
       <div class="modal-footer">
-      <button class="btn btn-sm btn-success btn-block mt-4" onclick="return con_update()">บันทึก</button>
       </div>
       <div class="modal fade" id="modaledit" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -163,7 +162,7 @@ include ('connect.php');
           </input>
     </div>
     <form name="form" action="" method="POST">
-      <div class="form-group col-md-6" style="font-size:1vw; flaot:left;">
+      <div class="form-group col-md-6" style="font-size:1vw; float:left;">
         <label for="datepicker">วันที่ขออนุญาต</label>
         <input class="form-control" data-date-format="yyyy-mm-dd"  id="datepicker" style="width:500px;">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -402,7 +401,6 @@ a{
 }
 #ic:hover{
   cursor: pointer;
-}
 }
 .lside{
   background-color: #f4f4f4;

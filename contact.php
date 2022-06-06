@@ -61,7 +61,8 @@ include 'connect.php';
           <div class="card mt-3">
             <div class="card-body text-center">
             <?php echo $row["d_fname"], $row["d_lname"];?><br>
-            <?php echo 'เบอร์โทร', $row["d_tel"];?>
+            <?php echo 'เบอร์โทร', $row["d_tel"];?><br>
+            <?php echo 'สถานภาพ', ' : ' ,$row["d_status"];?> 
             </div>
           </div>
         </div><?php } ?>
@@ -112,7 +113,7 @@ a{
 #ic:hover{
   cursor: pointer;
 }
-}
+
 .lside{
   background-color: #f4f4f4;
   height:720px;

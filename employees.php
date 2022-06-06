@@ -52,10 +52,11 @@ include ('connect.php');
         <button id="approve" onclick="window.location.href='ap_manage.php'" class="btn btn-block m-2 btn-green">ผู้อนุมัติ</button>
       </div>
       <div class="col-10 p-5 row-height rside text-center">
-      <h4 class="pb-4" style="color:black;">รายงานการจอง</h4>
+      <h4 class="pb-4" style="color:black;">ข้อมูลพนักงานทั้งหมด</h4>
       <table id="myTable" class="table table-bordered text-center">
           <thead>
             <tr>
+              <th class="text-center">รหัสพนักงาน</th>
               <th class="text-center">ชื่อ</th>
               <th class="text-center">ตำแหน่ง</th>
               <th class="text-center">เบอร์โทร</th>
@@ -73,6 +74,7 @@ include ('connect.php');
                 $i++;
             ?>
             <tr>
+              <td><?php echo $row["emp_id"];?></td>
               <td><?php echo $row["emp_fname"], '  ' ,$row["emp_lname"];?></td>
               <td><?php echo $row["job_title"];?></td>
               <td><?php echo $row["emp_tel"];?></td>
@@ -104,6 +106,8 @@ include ('connect.php');
         ?>
             <form>
               <div class="form-group">
+                <label for="emp_id" class="col-form-label float-left">รหัสพนักงาน</label>
+                <input type="text" class="form-control" id="emp_id">
                 <label for="emp_fname" class="col-form-label float-left">ชื่อ</label>
                 <input type="text" class="form-control" id="emp_fname">
                 <label for="emp_lname" class="col-form-label float-left">นามสกุล</label>
@@ -129,7 +133,7 @@ include ('connect.php');
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" name="addcar" id="addcar" class="btn btn-success" onclick="return addemp()">เพิ่มข้อมูล</button>
+            <button type="button" name="addcar" id="addcar" class="btn btn-success" onclick="callfunc()">เพิ่มข้อมูล</button>
           </div>
         </div>
       </div>  
@@ -243,6 +247,10 @@ include ('connect.php');
   $(document).ready( function () {
       $('#myTable').DataTable();
   } );
+  function callfunc(){
+    return addemp();
+  }
+
   function addemp(){
   $("#alert_login").hide();
             $.ajax({
@@ -251,6 +259,7 @@ include ('connect.php');
                 dataType: "json",
                 data: {
                     user: "addemp",
+                    emp_id: $("#emp_id").val(),
                     emp_fname: $("#emp_fname").val(),
                     emp_lname: $("#emp_lname").val(),
                     emp_tel: $("#emp_tel").val(),
@@ -259,6 +268,26 @@ include ('connect.php');
                 },
                 success: function (response) {
                     alert("เพิ่มข้อมูลพนักงานสำเร็จ!");
+                    location.href = 'employees.php';
+                }
+            });
+            return adduser();
+    }
+    function adduser(){
+  $("#alert_login").hide();
+            $.ajax({
+                url: "employees_back.php",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    roll: "adduser",
+                    emp_id: $("#emp_id").val(),
+                    emp_fname: $("#emp_fname").val(),
+                    emp_lname: $("#emp_lname").val(),
+                    emp_po_name: $("#emp_po_name").val(),
+                },
+                success: function (response) {
+                    alert("เพิ่มข้อมูล User สำเร็จ!");
                     location.href = 'employees.php';
                 }
             });
@@ -362,7 +391,7 @@ a{
 #ic:hover{
   cursor: pointer;
 }
-}
+
 .rside{
   background-color: #fff;
   height: 100%;

@@ -63,7 +63,7 @@ include 'connect.php';
             <div class="card-body text-center">
             <?php echo $row["car_brand"];?><br>
             <?php echo 'ทะเบียน ', $row["car_num"];?><br>
-            <?php echo 'จำนวน ', $row["car_val"], ' ที่นั่ง';?> 
+            <?php echo $row["car_type"] ,' จำนวน ', $row["car_val"], ' ที่นั่ง';?> 
             </div>
           </div>
         </div><?php } ?>
@@ -91,6 +91,18 @@ include 'connect.php';
                 <input type="text" class="form-control" id="car_num">
                 <label for="car_val" class="col-form-label">จำนวนที่นั่ง</label>
                 <input type="text" class="form-control" id="car_val">
+                <label for="del_car" class="col-form-label float-left">ประเภทรถ</label>
+                <select class="form-select form-control" aria-label="Default select example"  id="car_type" name="car_type" >
+                    <option  value="รถเก๋ง" selected>
+                      รถเก๋ง
+                    </option>
+                    <option  value="รถตู้" >
+                      รถตู้
+                    </option>
+                    <option  value="รถกระบะ" >
+                      รถกระบะ
+                    </option>
+              </select>
               </div>
             </form>
           </div>
@@ -173,6 +185,18 @@ include 'connect.php';
                 <input type="text" class="form-control" id="ecar_num" val="">
                 <label for="car_val" class="col-form-label">จำนวนที่นั่ง</label>
                 <input type="text" class="form-control" id="ecar_val" val="">
+                <label for="del_car" class="col-form-label float-left">ประเภทรถ</label>
+                <select class="form-select form-control" aria-label="Default select example"  id="car_type2" name="car_type2" >
+                    <option  value="รถเก๋ง" selected>
+                      รถเก๋ง
+                    </option>
+                    <option  value="รถตู้" >
+                      รถตู้
+                    </option>
+                    <option  value="รถกระบะ" >
+                      รถกระบะ
+                    </option>
+              </select>
             </form>
           </div>
           <div class="modal-footer">
@@ -200,6 +224,7 @@ function addcar(){
                     car_brand: $("#car_brand").val(),
                     car_num: $("#car_num").val(),
                     car_val: $("#car_val").val(),
+                    car_type: $("#car_type").val(),
                 },
                 success: function (response) {
                     alert("เพิ่มรถสำเร็จ!");
@@ -254,6 +279,7 @@ function addcar(){
                     car_brand: $("#ecar_brand").val(),
                     car_num: $("#ecar_num").val(),
                     car_val: $("#ecar_val").val(),
+                    car_type2: $("#car_type2").val(),
                 },
                 success: function (response) {
                     alert("แก้ไขสำเร็จ!");
@@ -302,7 +328,6 @@ a{
 }
 #ic:hover{
   cursor: pointer;
-}
 }
 .rside{
   background-color: #fff;
